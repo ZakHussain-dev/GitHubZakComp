@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.zhussain.githubzakcomponent.util.Status" />
+
+        <import type="com.zhussain.githubzakcomponent.util.Resource"/>
+
+        <variable
+            name="resource"
+            type="Resource" />
+
+        <variable
+            name="callback"
+            type="com.zhussain.githubzakcomponent.ui.common.RetryCallback" />
+
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:visibleGone="@{resource.data == null}">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:visibleGone="@{resource.status == Status.LOADING}" />
+
+        <Button
+            android:id="@+id/retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> callback.retry()}"
+            android:text="@string/retry" />
+
+        <TextView
+            android:id="@+id/error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{resource.message ?? @string/unknown_error}"
+            app:visibleGone="@{resource.status == Status.ERROR}" />
+    </LinearLayout>
+</layout>
